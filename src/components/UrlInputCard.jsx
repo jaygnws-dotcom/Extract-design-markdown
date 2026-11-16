@@ -19,13 +19,11 @@ export const UrlInputCard = ({ onGenerate, isLoading }) => {
   const handleSubmit = (e) => {
     if (e) e.preventDefault();
     if (!url.trim() || isLoading) return;
-    const targetUrl = url.trim();
-    setUrl(''); // Clear textfield on submission
-    onGenerate(targetUrl);
+    onGenerate(url.trim()); // Keep current URL in textfield on submit
   };
 
   const handlePresetClick = (preset) => {
-    setUrl(''); // Clear textfield on preset selection
+    setUrl(''); // Only clear value when user clicks on a new URL preset
     onGenerate(preset.url);
   };
 
@@ -72,6 +70,9 @@ export const UrlInputCard = ({ onGenerate, isLoading }) => {
         <InputBase
           value={url}
           onChange={(e) => setUrl(e.target.value)}
+          onFocus={(e) => {
+            if (e.target.value) e.target.select();
+          }}
           placeholder="Enter website URL (e.g. stripe.com or https://linear.app)"
           disabled={isLoading}
           sx={{
