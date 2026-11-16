@@ -7,22 +7,25 @@ import {
   Chip,
   Typography,
   Stack,
+  IconButton,
 } from '@mui/material';
-import { Globe, ArrowRight } from 'lucide-react';
+import { Globe, ArrowRight, X } from 'lucide-react';
 import { PRESETS } from '../data/presets';
 import { BrandLogo } from './BrandLogo';
 
-export const UrlInputCard = ({ onGenerate, isLoading, initialUrl = '' }) => {
-  const [url, setUrl] = useState(initialUrl);
+export const UrlInputCard = ({ onGenerate, isLoading }) => {
+  const [url, setUrl] = useState('');
 
   const handleSubmit = (e) => {
     if (e) e.preventDefault();
     if (!url.trim() || isLoading) return;
-    onGenerate(url.trim());
+    const targetUrl = url.trim();
+    setUrl(''); // Clear textfield on submission
+    onGenerate(targetUrl);
   };
 
   const handlePresetClick = (preset) => {
-    setUrl(preset.url);
+    setUrl(''); // Clear textfield on preset selection
     onGenerate(preset.url);
   };
 
@@ -82,6 +85,22 @@ export const UrlInputCard = ({ onGenerate, isLoading, initialUrl = '' }) => {
             },
           }}
         />
+
+        {/* Quick Clear Icon when input is not empty */}
+        {url && !isLoading && (
+          <IconButton
+            size="small"
+            onClick={() => setUrl('')}
+            sx={{
+              p: 0.6,
+              mr: 1,
+              color: '#94A3B8',
+              '&:hover': { color: '#0F172A', backgroundColor: '#F1F5F9' },
+            }}
+          >
+            <X size={15} />
+          </IconButton>
+        )}
 
         {/* Primary Pill Button (42px height, #2563EB, rounded.full) */}
         <Button

@@ -79,7 +79,6 @@ export default function App() {
         <UrlInputCard
           onGenerate={handleGenerate}
           isLoading={isLoading}
-          initialUrl={url}
         />
 
         {isLoading && (
